@@ -13,10 +13,14 @@ module Control.Monad.NState(NState,get,put,state,modify,run,eval,exec,branch) wh
 
 import Control.Monad.State
 
-type NState s a = StateT s [] a
+{- |
+  A non-deterministic state monad parameterized by the type s of the state to carry.
+-}
+
+type NState s = StateT s []
 
 {- |
-	Unwrap an NState monad computation as a function.
+	Unwrap an "NState" computation as a function.
 -}
 
 run :: NState s a  -- ^ nondeterministic state computation
