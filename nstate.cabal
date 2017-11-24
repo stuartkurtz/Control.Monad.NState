@@ -1,5 +1,5 @@
 name:                nstate
-version:             0.2.0.3
+version:             0.2.0.4
 synopsis:            Nondeterministic State monad
 description:         Nondeterministic State monad
 license:             BSD3
