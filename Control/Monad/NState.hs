@@ -23,6 +23,7 @@ module Control.Monad.NState
     ) where
 
 import Control.Monad.State
+import Data.Foldable (toList)
 
 {- |
   A non-deterministic state monad parameterized by the type s of the state to carry.
@@ -52,8 +53,8 @@ state :: (s -> (a,s)) -> NState s a
 state = Control.Monad.State.state
 
 {- |
-  Embed a non-deterministic function state function, realized via the type
-  @s -> [(a,s)]@, into the "NState" monad.
+  Embed a non-deterministic function state function, realized via the 
+  type  @s -> [(a,s)]@, into the "NState" monad.
 -}
 
 nstate :: (s -> [(a,s)]) -> NState s a
@@ -67,12 +68,14 @@ modify :: (s -> s) -> NState s ()
 modify = Control.Monad.State.modify
 
 {- |
-  Non-deterministically select a value from the list of alternatives.
+  Non-deterministically select a value from the collection of
+  alternatives.
 -}
 
-branch :: [a]            -- ^ list of alternatives
-          -> NState s a  -- ^ nondeterministic state computation
-branch = lift
+branch :: Foldable t
+       => t a            -- ^ list of alternatives
+       -> NState s a     -- ^ nondeterministic state computation
+branch = lift . toList
 
 {- |
     Unwrap an "NState" computation as a function.
